@@ -27,10 +27,16 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
         
+      # 从 GitHub Secret 恢复认证状态
+      - name: Setup authentication state
+        run: |
+          mkdir -p playwright/.auth/
+          echo '${{ secrets.AUTH_STATE_JSON }}' > playwright/.auth/user.json
+        
       - name: Run Playwright tests
         run: npx playwright test --project=e2e --workers=1
         
-      - name: Upload test results
+      - name: Upload playwrighttest report
         if: always()
         uses: actions/upload-artifact@v4
         with:
@@ -38,7 +44,7 @@ jobs:
           path: playwright-report/
           retention-days: 30 
       # This step should always run even when previous steps fail
-      - name: Upload smoke test traces
+      - name: Upload playwright test traces
         uses: actions/upload-artifact@v4
         if: failure()
         with:
