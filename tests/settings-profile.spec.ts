@@ -33,20 +33,6 @@ test.describe('设置个人资料页面测试', () => {
     await settingsProfilePage.updateProfile({ name: originalName });
   });
 
-  test('更新用户名应在仪表盘中反映更改', async ({ page, dashboardPage }) => {
-    // 生成随机名称以避免冲突
-    const newName = `This is_a_TestName_${Date.now()}`;
-    
-    // 更新个人资料名称
-    await settingsProfilePage.updateProfile({ name: newName });
-    await expect(settingsProfilePage.updateButton).toBeEnabled();
-    
-    // 导航到仪表盘
-    await dashboardPage.navigateToDashboard();
-    
-    // 验证用户资料按钮显示新名称
-    await expect(dashboardPage.userProfileButton).toContainText(newName);
-  });
 
   test('更新 GitHub 资料应成功保存', async ({ page }) => {
     // 生成随机 GitHub 用户名
@@ -179,5 +165,20 @@ test.describe('设置个人资料页面测试', () => {
     
     // 关闭上下文
     await context.close();
+  });
+
+  test('更新用户名应在仪表盘中反映更改', async ({ page, dashboardPage }) => {
+    // 生成随机名称以避免冲突
+    const newName = `This is_a_TestName_${Date.now()}`;
+    
+    // 更新个人资料名称
+    await settingsProfilePage.updateProfile({ name: newName });
+    await expect(settingsProfilePage.updateButton).toBeEnabled();
+    
+    // 导航到仪表盘
+    await dashboardPage.navigateToDashboard();
+    
+    // 验证用户资料按钮显示新名称
+    await expect(dashboardPage.userProfileButton).toContainText(newName);
   });
 });

@@ -50,4 +50,4 @@ jobs:
         with:
           if-no-files-found: ignore
           name: playwright-test-traces-${{ github.run_number }}
-          path: playwright-report/traces
+          path: test-results
