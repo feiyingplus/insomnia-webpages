@@ -2,9 +2,9 @@ name: Playwright Tests
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ master, develop ]
   pull_request:
-    branches: [ main, master ]
+    branches: [ master, develop ]
   workflow_dispatch:  # 允许手动触发工作流
 
 jobs:
@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '22'
           cache: 'npm'
           
       - name: Install dependencies
@@ -32,8 +32,16 @@ jobs:
         
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v3.0.0
+        uses: actions/upload-artifact@v4
         with:
           name: playwright-report
           path: playwright-report/
           retention-days: 30 
+      # This step should always run even when previous steps fail
+      - name: Upload smoke test traces
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          if-no-files-found: ignore
+          name: playwright-test-traces-${{ github.run_number }}
+          path: playwright-report/traces
