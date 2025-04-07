@@ -1,0 +1,9 @@
+# archive files
+/archive/
+
+# auth file
+playwright/.auth
+
+# Playwright test results
+/test-results/
+/playwright-report/

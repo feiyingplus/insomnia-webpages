@@ -1,0 +1,9 @@
+{
+  "playwright.env": {
+
+    "baseURL": "https://app.insomnia.rest/"
+  },
+  "playwright.reuseBrowser": true,
+  "playwright.showBrowser": true,
+  "playwright.testConfig": "./playwright.config.ts"
+} 
