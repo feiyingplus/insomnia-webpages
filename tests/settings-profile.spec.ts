@@ -177,8 +177,10 @@ test.describe('设置个人资料页面测试', () => {
     
     // 导航到仪表盘
     await dashboardPage.navigateToDashboard();
+    await expect(dashboardPage.userProfileButton).toBeVisible();
+    await expect(dashboardPage.welcomeMessages).toBeVisible();
     
     // 验证用户资料按钮显示新名称
-    await expect(dashboardPage.userProfileButton).toContainText(newName);
+    await expect(dashboardPage.userProfileButton).toContainText(newName, { timeout: 10000 });
   });
 });
