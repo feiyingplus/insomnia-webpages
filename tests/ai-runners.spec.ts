@@ -21,37 +21,37 @@ test.describe('AI Runners Page Tests', () => {
     await expect(aiRunnersPage.runnerSimilarity).toBeVisible();
   });
 
-  test('@Negative LLM提供商名称拼写错误', async ({ aiRunnersPage, page }) => {
-    // 点击 LLM 提供商选择按钮
+  test('@Negative LLM provider name misspelled', async ({ aiRunnersPage, page }) => {
+    // Click on LLM provider selection button
     await aiRunnersPage.runnerLLMProvider.click();
     
-    // 查找下拉菜单中的 "Open AI" 选项
+    // Find "Open AI" option in dropdown menu
     const openAIOption = page.getByRole('option', { name: /Open AI/i });
     
-    // 验证选项存在并点击
+    // Verify option exists and click
     await expect(openAIOption).toBeVisible();
     
-    // 获取选项的实际文本
+    // Get actual text of the option
     const optionText = await openAIOption.textContent();
     
-    // 记录实际文本以便检查
-    console.log(`LLM提供商选项文本: "${optionText}"`);
+    // Log actual text for verification
+    console.log(`LLM provider option text: "${optionText}"`);
     
-    // 验证文本是否有拼写错误 (应该是 "OpenAI" 而不是 "Open AI")
+    // Verify if text has spelling error (should be "OpenAI" not "Open AI")
     if (optionText && optionText.includes('Open AI')) {
-      console.log('错误: 提供商名称应该是 "OpenAI"，而不是 "Open AI"');
+      console.log('Error: Provider name should be "OpenAI", not "Open AI"');
     }
     
-    // // 点击选项
+    // // Click the option
     // await openAIOption.click();
-    // // 验证选择后按钮上显示的文本
+    // // Verify text displayed on button after selection
     // const selectedText = await aiRunnersPage.runnerLLMProvider.textContent();
-    // console.log(`选择后按钮显示文本: "${selectedText}"`);
+    // console.log(`Button text after selection: "${selectedText}"`);
     
-    // // 检查选择后的文本是否也有同样的拼写问题
+    // // Check if selected text also has the same spelling issue
     // expect(selectedText).toContain('Open AI');
-    // console.log('问题: 公司名称 "OpenAI" 在界面上被错误地显示为 "Open AI"');
+    // console.log('Issue: Company name "OpenAI" is incorrectly displayed as "Open AI" in the interface');
   });
 
-  // 更多 AI Runners 测试...
+  // More AI Runners tests...
 }); 

@@ -16,10 +16,10 @@ const authFile = path.join(__dirname, 'playwright/.auth/user.json');
     // login with available options
   console.log('*****************************************************');
   console.log('MANUAL LOGIN REQUIRED:');
-  console.log('1. Go to your application\'s login page.');
+  console.log('1. Go to https://app.insomnia.rest/app/authorize login page.');
   console.log('2. Click the one of the available Login options.');
   console.log('3. COMPLETE the login MANUALLY in the browser window.');
-  console.log('4. Ensure you are redirected back to your application (app.insomnia.rest).');
+  console.log('4. Ensure you are redirected back to your application (https://app.insomnia.rest).');
   console.log('5. Once logged in successfully, press Enter here to save the state.');
   console.log('*****************************************************');
   // press ENTER in terminal after login

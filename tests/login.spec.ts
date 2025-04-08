@@ -17,5 +17,5 @@ test.describe('Login Page Tests', () => {
     await expect(loginPage.privacyPolicyLink).toBeVisible();
   });
 
-  // 更多登录测试...
+  // More login tests...
 }); 

@@ -19,114 +19,114 @@ test.describe('Dashboard Page Tests', () => {
   });
 
   test('welcome message should match user name format', async ({ dashboardPage }) => {
-    // 获取用户资料按钮的文本
+    // Get text from user profile button
     const userProfileText = await dashboardPage.userProfileButton.textContent() || '';
     
-    // 提取用户名的第一部分（空格前的部分或全部）
+    // Extract first part of username (before space or entire name)
     const firstName = userProfileText.split(' ')[0];
     
-    // 获取欢迎消息文本
+    // Get welcome message text
     const welcomeText = await dashboardPage.welcomeMessages.textContent() || '';
     
-    // 验证欢迎消息格式
+    // Verify welcome message format
     const expectedPattern = new RegExp(`Get started with Insomnia, ${firstName}!`);
     expect(welcomeText).toMatch(expectedPattern);
     
-    // 记录实际值以便调试
-    console.log(`用户名: "${userProfileText}"`);
-    console.log(`提取的名字: "${firstName}"`);
-    console.log(`欢迎消息: "${welcomeText}"`);
+    // Log actual values for debugging
+    console.log(`Username: "${userProfileText}"`);
+    console.log(`Extracted first name: "${firstName}"`);
+    console.log(`Welcome message: "${welcomeText}"`);
     
-    // 如果不匹配预期格式，记录错误
+    // If not matching expected format, log error
     if (!welcomeText.match(expectedPattern)) {
-      console.log(`错误: 欢迎消息格式不正确。应为 "Get started with Insomnia, ${firstName}!"`);
+      console.log(`Error: Welcome message format incorrect. Should be "Get started with Insomnia, ${firstName}!"`);
     }
   });
 
   test('download links should be valid and working', async ({ page, dashboardPage }) => {
-    // 设置更长的超时时间 (300秒)
+    // Set longer timeout (300 seconds)
     test.setTimeout(300000);
     
-    // 创建一个标志来跟踪下载是否开始
+    // Create a flag to track if download started
     let downloadStarted = false;
     
-    // 监听下载事件
+    // Listen for download events
     page.on('download', download => {
-      console.log(`下载开始: ${download.suggestedFilename()}`);
+      console.log(`Download started: ${download.suggestedFilename()}`);
       downloadStarted = true;
-      // 取消下载
+      // Cancel download
       download.cancel();
     });
     
-    // 监听响应以检查下载链接是否有效
+    // Listen for responses to check if download links are valid
     page.on('response', response => {
       const url = response.url();
       if (url.includes('download') || url.includes('.dmg') || url.includes('.exe') || url.includes('.deb')) {
-        console.log(`检查下载链接: ${url} - 状态码: ${response.status()}`);
-        expect(response.status()).toBeLessThan(400); // 任何小于 400 的状态码都不是错误
+        console.log(`Checking download link: ${url} - Status code: ${response.status()}`);
+        expect(response.status()).toBeLessThan(400); // Any status code less than 400 is not an error
       }
     });
     
-    // 检查 MacOS 下载链接
-    console.log('测试 MacOS 下载链接...');
+    // Check MacOS download link
+    console.log('Testing MacOS download link...');
     await dashboardPage.downloadForMacOSButton.click();
     
-    // 等待一小段时间，看看下载是否开始
+    // Wait a short time to see if download starts
     await page.waitForTimeout(15000);
     
-    // 检查 Windows 下载链接
-    console.log('测试 Windows 下载链接...');
+    // Check Windows download link
+    console.log('Testing Windows download link...');
     const windowsPagePromise = page.waitForEvent('popup');
     await dashboardPage.downloadForWindowsLink.click();
     const windowsPage = await windowsPagePromise;
     await windowsPage.waitForLoadState('networkidle', { timeout: 10000 }).catch(() => {
-      console.log('Windows 下载页面加载超时，但继续测试');
+      console.log('Windows download page load timed out, but continuing test');
     });
     await windowsPage.close();
     
-    // 检查 Linux 下载链接
-    console.log('测试 Linux 下载链接...');
+    // Check Linux download link
+    console.log('Testing Linux download link...');
     const downloadPromise = page.waitForEvent('download');
     await page.getByRole('link', { name: /Linux/ }).click();
     
-    // 等待下载开始
+    // Wait for download to start
     const download = await downloadPromise;
-    console.log(`开始下载文件: ${download.suggestedFilename()}`);
+    console.log(`Started downloading file: ${download.suggestedFilename()}`);
     
-    // 检查 "see all downloads" 链接
-    console.log('测试 "see all downloads" 链接...');
+    // Check "see all downloads" link
+    console.log('Testing "see all downloads" link...');
     const allDownloadsPagePromise = page.waitForEvent('popup');
     await dashboardPage.seeAllDownloadsLink.click();
     const allDownloadsPage = await allDownloadsPagePromise;
     await allDownloadsPage.waitForLoadState('domcontentloaded', { timeout: 10000 }).catch(() => {
-      console.log('see all downloads页面加载超时,但继续测试');
+      console.log('See all downloads page load timed out, but continuing test');
     });
     
-    // 验证下载页面标题
+    // Verify download page title
     try {
       const pageUrl = allDownloadsPage.url();
-      console.log(`下载页面 URL: ${pageUrl}`);
-      // 验证 URL 是否指向 GitHub Releases 页面
+      console.log(`Downloads page URL: ${pageUrl}`);
+      // Verify URL points to GitHub Releases page
       expect(pageUrl).toContain('github.com/Kong/insomnia/releases');
     } catch (error) {
-      console.log('验证 GitHub Releases 页面失败:', error);
+      console.log('Failed to verify GitHub Releases page:', error);
     }
     
     await allDownloadsPage.close();
     
-    // 如果我们检测到至少一个下载开始，测试通过
+    // If we detected at least one download starting, test passes
     if (downloadStarted) {
-      console.log('至少一个下载已开始，测试通过');
+      console.log('At least one download started, test passes');
     } else {
-      console.log('警告: 没有检测到下载开始，但链接可能仍然有效');
+      console.log('Warning: No downloads detected starting, but links may still be valid');
     }
   });
 
   test.fixme('@fixme - footer links should be valid and working', async ({ page, dashboardPage }) => {
-    // 设置更长的超时时间 (120秒)
+    // Set longer timeout (120 seconds)
     test.setTimeout(120000);
     
-    // 检查所有页脚链接
+    // Check all footer links
     const footerLinks = [
       { name: 'Kong Inc.', locator: dashboardPage.footerKongInc },
       { name: 'Support', locator: dashboardPage.footerSupportLink },
@@ -139,60 +139,60 @@ test.describe('Dashboard Page Tests', () => {
     ];
     
     for (const link of footerLinks) {
-      // 等待新页面打开
+      // Wait for new page to open
       const popupPromise = page.waitForEvent('popup');
       await link.locator.click();
       const popup = await popupPromise;
       
-      // 等待页面加载
+      // Wait for page to load
       await popup.waitForLoadState('domcontentloaded');
-      console.log(`${link.name} 已加载`);
+      console.log(`${link.name} loaded`);
       
-      // 获取页面标题和URL
+      // Get page title and URL
       const pageTitle = await popup.title();
       const pageUrl = popup.url();
       
       try {
-        // 检查HTTP状态码
+        // Check HTTP status code
         const response = await popup.waitForEvent('response', {
           predicate: response => response.url() === pageUrl && response.status() > 0,
           timeout: 15000
         });
         
-        // 验证状态码小于400（非错误状态）
-        expect.soft(response.status(), `链接 ${link.name} (${pageUrl}) 返回了错误状态码: ${response.status()}`).toBeLessThan(400);
+        // Verify status code is less than 400 (non-error status)
+        expect.soft(response.status(), `Link ${link.name} (${pageUrl}) returned error status code: ${response.status()}`).toBeLessThan(400);
         
-        // 检查页面是否有内容
+        // Check if page has content
         const bodyContent = await popup.evaluate(() => document.body.textContent || '');
-        expect.soft(bodyContent.length, `链接 ${link.name} (${pageUrl}) 页面内容为空`).toBeGreaterThan(50);
+        expect.soft(bodyContent.length, `Link ${link.name} (${pageUrl}) page content is empty`).toBeGreaterThan(50);
         
-        // 检查页面是否有标题元素
+        // Check if page has heading elements
         const hasHeading = await popup.evaluate(() => {
           const headings = document.querySelectorAll('h1, h2, h3');
           return headings.length > 0;
         });
-        expect.soft(hasHeading, `链接 ${link.name} (${pageUrl}) 页面缺少标题元素`).toBeTruthy();
+        expect.soft(hasHeading, `Link ${link.name} (${pageUrl}) page is missing heading elements`).toBeTruthy();
         
-        // 检查页面是否有主要内容区域
+        // Check if page has main content area
         const hasMainContent = await popup.evaluate(() => {
           return !!(document.querySelector('main') || 
                    document.querySelector('article') || 
                    document.querySelector('.content') || 
                    document.querySelector('#content'));
         });
-        expect.soft(hasMainContent, `链接 ${link.name} (${pageUrl}) 页面缺少主要内容区域`).toBeTruthy();
+        expect.soft(hasMainContent, `Link ${link.name} (${pageUrl}) page is missing main content area`).toBeTruthy();
         
       } catch (error) {
-        console.log(`检查链接 ${link.name} 时出错:`, error);
-        expect.soft(true, `链接 ${link.name} (${pageUrl}) 验证失败: ${(error as Error).message}`).toBeFalsy();
+        console.log(`Error checking link ${link.name}:`, error);
+        expect.soft(true, `Link ${link.name} (${pageUrl}) validation failed: ${(error as Error).message}`).toBeFalsy();
       }
       
-      console.log(`检查页脚链接: ${link.name} - URL: ${pageUrl} - 标题: ${pageTitle}`);
+      console.log(`Checking footer link: ${link.name} - URL: ${pageUrl} - Title: ${pageTitle}`);
       
-      // 关闭弹出窗口
+      // Close popup window
       await popup.close();
     }
   });
 
-  // 更多仪表盘测试...
+  // More dashboard tests...
 }); 
