@@ -139,7 +139,7 @@ Issues found during the Playwright E2E automation and manual testing:
 - [In Progress] Top 100+ Issues Analysis in Insomnia GitHub Repo (filter by is:issue state:open label:B-bug)
     1. refer to https://github.com/Kong/insomnia/issues?q=is%3Aissue+is%3Aopen+label%3AB-bug
     2. issues exported from GitHub to JSON files at ./Insomnia-GitHub-Issues-Export folder
-    3. use LLM to analysis the issues ![Insomnia-GitHub-Issues-Export/Summary.md](Insomnia-GitHub-Issues-Export/Summary.md)
+    3. use LLM to analysis the issues [Insomnia-GitHub-Issues-Export/Summary.md](Insomnia-GitHub-Issues-Export/Summary.md)
 
     
 - [ ] Add more tests for other pages

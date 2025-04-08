@@ -1,6 +1,6 @@
 # Insomnia Open Bug Analysis Report
 
-[中文版本](#1-Insomnia开放Bug分析报告)
+[中文版本](#insomnia开放bug分析报告)
 
 ## 1. Introduction
 
