@@ -7,3 +7,39 @@ playwright/.auth
 # Playwright test results
 /test-results/
 /playwright-report/
+
+# .env file
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Log files
+*.log
+fetch_log.txt
+merge_log.txt
+
+# Insomnia-GitHub-Issues-Export ingore
+Insomnia-GitHub-Issues-Export/Insomnia-Github-Issues_*.csv
+Insomnia-GitHub-Issues-Export/Insomnia-Github-Issues_*.xlsx
+Insomnia-Github-Issues-Export/~*.*
+

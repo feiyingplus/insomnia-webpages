@@ -7,7 +7,12 @@
     "test": "playwright test --project=e2e",
     "report": "playwright show-report",
     "test:e2e": "playwright test --project=e2e --workers=1",
-    "auth": "node auth.script.js"
+    "auth": "node auth.script.js",
+    "setup-python": "pip install -r python-requirements.txt",
+    "merge-issues": "python3 Insomnia-GitHub-Issues-Export/merge.py",
+    "fetch-issues:all": "python3 Insomnia-GitHub-Issues-Export/github_issues_fetcher.py",
+    "fetch-issues:after": "python3 Insomnia-GitHub-Issues-Export/github_issues_fetcher.py --min-issue",
+    "fetch-issues:update": "python3 Insomnia-GitHub-Issues-Export/github_issues_fetcher.py --update"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
