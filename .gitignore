@@ -11,5 +11,11 @@ playwright/.auth
 /test-results/
 /playwright-report/
 
+# Insomnia-GitHub-Issues-Export ingore
+Insomnia-GitHub-Issues-Export/Insomnia-Github-Issues_*.json
+Insomnia-GitHub-Issues-Export/Insomnia-Github-Issues_*.csv
+Insomnia-GitHub-Issues-Export/Insomnia-Github-Issues_*.xlsx
+Insomnia-GitHub-Issues-Export/~*.*
+
 
 
